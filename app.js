@@ -33,6 +33,32 @@ function addTask(subject, text) {
     const newTaskRef = db.ref(`tasks/${subject}`).push();
     newTaskRef.set({ text, completed: false });
 }
+// 获取输入框和选择框元素
+const taskInput = document.getElementById("task-input");
+const subjectSelect = document.getElementById("subject-select");
+
+// 添加任务函数
+function addTask() {
+    const taskText = taskInput.value.trim();
+    const subject = subjectSelect.value;
+
+    if (taskText) {
+        const newTaskRef = db.ref(`tasks/${subject}`).push();
+        newTaskRef.set({
+            text: taskText,
+            completed: false,
+            timestamp: Date.now(),
+        });
+        
+        // 清空输入框
+        taskInput.value = "";
+    } else {
+        alert("请输入作业内容！");
+    }
+}
+
+// 初始化任务列表
+updateTaskList();
 
 // 更新任务列表
 function updateTaskList() {
